@@ -1,0 +1,20 @@
+var serviceUrl = 'http://localhost:8080/optiplex/rest/login/';
+var registerApp = angular.module('registerApp',[]);
+
+var registerController = function($scope, $http) {
+	$scope.search = function() {
+		var request = {
+			method: 'GET',
+			url: serviceUrl + $scope.user + "/" + $scope.pass
+		};
+		$http(request).then(
+				
+		function successCallback(response) { //success`	
+			$scope.email = response.data.email;
+		},
+		function errorCallback(response) { //error
+			$scope.email = serviceUrl + $scope.user + "/" + $scope.pass;
+		});
+	} //search
+} //loginController
+loginApp.controller('loginController', loginController);

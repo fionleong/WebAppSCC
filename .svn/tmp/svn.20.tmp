@@ -1,0 +1,56 @@
+var userProfileApp = angular.module('userProfileApp', ['ngRoute']);
+
+userProfileApp.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider.
+    when('/login', {
+        templateUrl: 'login.html',
+        controller: 'LoginController'
+    }).
+    when('/register', {
+        templateUrl: 'signup.html',
+        controller: 'RegisterController'
+    }).
+    when('/success', {
+        templateUrl: 'signup_successful.html',
+        controller: 'SuccessController'
+    }).
+     when('/contact', {
+        templateUrl: 'contact.html',
+        controller: 'ContactController'
+    }).
+    otherwise({
+        redirectTo: '/login'
+    });
+}]);
+
+// Creates UserProfileController and calls 
+userProfileApp.controller('UserProfileController', ['$scope', '$http', '$location', '$window', '$filter', function ($scope, $http, $location, $window, $filter) {
+	
+	var request = {
+			method: 'GET',
+			url: './rest/getUser/david@gmail.com/4312'
+		};
+		$http(request).then(
+				
+		function successCallback(response) { //success`	
+			console.log(response.data);
+			$scope.firstName = response.data.firstName;
+			$scope.lastName = response.data.lastName;
+			$scope.gender = response.data.gender;
+			$scope.dob = new Date($filter('date')(response.data.dob, 'MM/dd/yyyy'));
+			$scope.address = response.data.address;
+			$scope.city = response.data.city;
+			$scope.state = response.data.state;
+			$scope.zipCode = parseInt(response.data.zipCode,10);
+			$scope.email = response.data.email;
+			$scope.accountType = response.data.accountType;
+			
+			
+		},
+		function errorCallback(response) { //error
+			console.log("failed");
+		});
+	
+	
+    
+}]);

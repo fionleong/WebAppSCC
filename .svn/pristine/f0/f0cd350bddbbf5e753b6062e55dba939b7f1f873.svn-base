@@ -1,0 +1,922 @@
+//package edu.sjsu.db;
+//
+//import java.security.Key;
+//import java.sql.Connection;
+//import java.sql.Date;
+//import java.sql.DriverManager;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//
+//import javax.crypto.Cipher;
+//import javax.crypto.spec.SecretKeySpec;
+//
+//public class Dao {
+//	// Database connection credentials
+//	private static final String DRIVER_STR = "com.mysql.jdbc.Driver";
+//	private static final String URL_STR    = "jdbc:mysql://localhost:3307/cs160_project";
+//	private static final String DB_ID      = "root";
+//	private static final String DB_PWD     = "fion1994";
+//	
+//	// Database tables
+//	private static final String TABLE_USERS               = "users";
+//	private static final String TABLE_CAREGIVER_SCHEDULES = "caregiver_schedules";
+//	private static final String TABLE_CAREGIVER_SKILLS    = "caregiver_skills";
+//	
+//	// TABLE_USERS columns
+//	private static final String KEY_USERS_USER_ID            = "user_id";
+//	private static final String KEY_USERS_EMAIL              = "email";
+//	private static final String KEY_USERS_PASSWORD           = "password";
+//	private static final String KEY_USERS_FIRST_NAME         = "firstName";
+//	private static final String KEY_USERS_LAST_NAME          = "lastName";
+//	private static final String KEY_USERS_DOB                = "dob";
+//	private static final String KEY_USERS_GENDER             = "gender";
+//	private static final String KEY_USERS_ADDRESS            = "address";
+//	private static final String KEY_USERS_CITY               = "city";
+//	private static final String KEY_USERS_STATE              = "state";
+//	private static final String KEY_USERS_ZIPCODE            = "zipcode";
+//	private static final String KEY_USERS_ACCOUNT_TYPE       = "account_type";
+//	private static final String KEY_USERS_VERIFIED_EMAIL     = "verified_email";
+//	private static final String KEY_USERS_VERIFIED_CAREGIVER = "verified_caregiver";
+//	
+//	// TABLE_CAREGIVER_SCHEDULES columns
+//	private static final String KEY_CAREGIVER_SCHEDULES_SCHEDULE_ID  = "schedule_id";
+//	private static final String KEY_CAREGIVER_SCHEDULES_USER_ID      = "user_id";
+//	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_MO = "available_monday";
+//	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_TU = "available_tuesday";
+//	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_WE = "available_wednesday";
+//	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_TH = "available_thursday";
+//	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_FR = "available_friday";
+//	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_SA = "available_saturday";
+//	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_SU = "available_sunday";
+//	
+//	// TABLE_CAREGIVER_SKILLS columns
+//	private static final String KEY_CAREGIVER_SKILLS_SKILLS_ID       = "skills_id";
+//	private static final String KEY_CAREGIVER_SKILLS_USER_ID         = "user_id";
+//	private static final String KEY_CAREGIVER_SKILLS_RESUME          = "resume";
+//	private static final String KEY_CAREGIVER_SKILLS_PARKINSONS      = "parkinsons";
+//	private static final String KEY_CAREGIVER_SKILLS_ALZHEIMERS      = "alzheimers";
+//	private static final String KEY_CAREGIVER_SKILLS_STROKE          = "stroke";
+//	private static final String KEY_CAREGIVER_SKILLS_CANCER          = "cancer";
+//	private static final String KEY_CAREGIVER_SKILLS_HOSPITAL_SITTER = "hospital_sitter";
+//	
+//	// Misc
+//	private static final String KEY = "SjsuFall2016CS160Optiplex";
+//	
+//	public static Connection getConnection() {
+//		try {
+//			Class.forName(DRIVER_STR);
+//			return DriverManager.getConnection(URL_STR, DB_ID, DB_PWD);
+//		} catch (SQLException | ClassNotFoundException e) {
+//			System.err.println("The connection failed because " + e.getMessage());
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
+//	
+////	private static String encrypt(String pwd) {
+////		try {
+////			Key aesKey = new SecretKeySpec(KEY.getBytes(), "AES");
+////			Cipher cipher = Cipher.getInstance("AES");
+////			cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+////			byte[] encryptedPwd = cipher.doFinal(pwd.getBytes());
+////			return new String(encryptedPwd);
+////		} catch (Exception e) {
+////			e.printStackTrace();
+////			return null;
+////		}
+////	}
+//	
+//	public static User getUser(String email, String pwd) throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//		
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//			return null;
+//		}
+//		
+//		// get encrypted password
+//		String encryptedPwd = pwd;//encrypt(pwd);
+//		
+//		// form query
+//		String query = "SELECT * FROM " + TABLE_USERS + " WHERE " + KEY_USERS_EMAIL +
+//				" = '" + email + "' AND " + KEY_USERS_PASSWORD + " = '" + encryptedPwd + "';"; // error might happen
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		
+//		// gather results
+//		ResultSet result = pstmt.executeQuery(); //error might happen
+//		if (result == null) {
+//			System.err.println("Could not find user with specified email and password.");
+//			return null;
+//		} else {
+//			result.next();
+//			int userId = result.getInt(1);
+//			String firstName = result.getString(4);
+//			String lastName = result.getString(5);
+//			Date dob = result.getDate(6);
+//			String gender = "Female";
+//			if (result.getBoolean(7)) {
+//				gender = "Male";
+//			}
+//			String address = result.getString(8);
+//			String city = result.getString(9);
+//			String state = result.getString(10);
+//			int zipCode = result.getInt(11);
+//			boolean caregiver = result.getBoolean(12);
+//			boolean verifiedEmail = result.getBoolean(13);
+//			boolean verifiedCaregiver = result.getBoolean(14);
+//			
+//			User user = new User(userId, email, pwd, firstName, lastName, dob, gender, address,
+//					city, state, zipCode, caregiver, verifiedEmail, verifiedCaregiver); //error might happen
+//			return user;
+//		}
+//	}
+//	
+////	public static void addUser(User user) throws SQLException {
+////		// initialize connection
+////		Connection conn = getConnection();
+////				
+////		// validate connection
+////		if (conn == null) {
+////			System.err.println("Connection Failed");
+////		}
+////		
+////		// form query
+////		String query = "INSERT INTO " + TABLE_USERS + " (" + KEY_USERS_EMAIL + ", " + 
+////				KEY_USERS_PASSWORD + ", " + KEY_USERS_FIRST_NAME + ", " + KEY_USERS_LAST_NAME +
+////				", " + KEY_USERS_DOB + ", " + KEY_USERS_GENDER + ", " + KEY_USERS_ADDRESS + ", " +
+////				KEY_USERS_CITY + ", " + KEY_USERS_STATE + ", " + KEY_USERS_ZIPCODE + ", " +
+////				KEY_USERS_ACCOUNT_TYPE + "," + KEY_USERS_VERIFIED_EMAIL + ", " +
+////				KEY_USERS_VERIFIED_CAREGIVER + ") VALUES ('" + user.getEmail() + "', '" +
+////				user.getPassword() + "', '" + user.getFirstName() + "', '" + user.getLastName() + "', '" +
+////				user.getDob() + "', '" + user.getGender() + "', '" + user.getAddress() + "', '" +
+////				user.getCity() + "', '" + user.getState() + "', '" + user.getZipcode() + "', '" +
+////				user.getAccountType() + "', '" + user.verifiedEmail() + "', '" +
+////				user.verifiedCaregiver() + "');";
+////		PreparedStatement pstmt = conn.prepareStatement(query);
+////		
+////		// execute
+////		pstmt.execute();
+////		
+////		// close connection
+////		conn.close();
+////	}
+//    
+//    	public static void addUser(String email, String password, String firstName, String lastName, String dob, String gender, String address, String city, String state, String zipCode, String accType) throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//				
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//		}
+//		
+//		try {
+//			// form query
+//			String query = "INSERT INTO " + TABLE_USERS + " (" + KEY_USERS_EMAIL + ", " + 
+//					KEY_USERS_PASSWORD + ", " + KEY_USERS_FIRST_NAME + ", " + KEY_USERS_LAST_NAME +
+//					", " + KEY_USERS_DOB + ", " + KEY_USERS_GENDER + ", " + KEY_USERS_ADDRESS + ", " +
+//					KEY_USERS_CITY + ", " + KEY_USERS_STATE + ", " + KEY_USERS_ZIPCODE + ", " +
+//					KEY_USERS_ACCOUNT_TYPE + ") VALUES ('" + email + "', '" +
+//					password + "', '" + firstName + "', '" + lastName + "', '" +
+//					dob + "', '" + gender + "', '" + address + "', '" +
+//					city + "', '" + state + "', '" + zipCode + "', '" +
+//					accType + "');";
+//			PreparedStatement pstmt = conn.prepareStatement(query);
+//			
+//			// execute
+//			pstmt.execute();
+//			
+//			// close connection
+//			conn.close();
+//			System.out.println("User inserted");
+//		}
+//		catch (SQLException e) {
+//			System.out.println("UNABLE TO INSERT USER");
+//			e.printStackTrace();	
+//		}	
+//	}
+//	
+//	public static void updateUser(User user, int userId) throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//						
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//		}
+//		
+//		// form query
+//		String query = "UPDATE " + TABLE_USERS + " SET " + KEY_USERS_EMAIL + " = '" + user.getEmail()
+//			+ "', " + KEY_USERS_PASSWORD + " = '" + user.getPassword() + "', " +
+//			KEY_USERS_FIRST_NAME + " = '" + user.getFirstName() + "', " +
+//			KEY_USERS_LAST_NAME + " = '" + user.getLastName() + "', " + KEY_USERS_DOB + " = '" +
+//			user.getDob() + "', " + KEY_USERS_GENDER + " = '" + user.getGender() + "', " +
+//			KEY_USERS_ADDRESS + " = '" + user.getAddress() + "', " + KEY_USERS_CITY + " = '" +
+//			user.getCity() + "', " + KEY_USERS_STATE + " = '" + user.getState() + "', " +
+//			KEY_USERS_ZIPCODE + " = '" + user.getZipcode() + "', " + KEY_USERS_ACCOUNT_TYPE +
+//			" = '" + user.getAccountType() + "', " + KEY_USERS_VERIFIED_EMAIL + " = '" +
+//			user.verifiedEmail() + "', " + KEY_USERS_VERIFIED_CAREGIVER + " = '" +
+//			user.verifiedCaregiver() + "' WHERE " + KEY_USERS_USER_ID + " = '" + userId + "';";
+//		
+//		// execute
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		pstmt.executeUpdate();
+//		
+//		// close connection
+//		conn.close();
+//	}
+//	
+//	public static CaregiverSchedule getCaregiverSchedule(int userId) throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//		
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//			return null;
+//		}
+//		
+//		// form query
+//		String query = "SELECT * FROM " + TABLE_CAREGIVER_SCHEDULES + " WHERE " +
+//				KEY_CAREGIVER_SCHEDULES_USER_ID + " = '" + userId + "';";
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		
+//		// gather results
+//		ResultSet result = pstmt.executeQuery(query);
+//		if (result == null) {
+//			System.err.println("Could not find schedule for specified user.");
+//			return null;
+//		} else {
+//			result.next();
+//			int scheduleId = result.getInt(1);
+//			boolean availableMo = result.getBoolean(3);
+//			boolean availableTu = result.getBoolean(4);
+//			boolean availableWe = result.getBoolean(5);
+//			boolean availableTh = result.getBoolean(6);
+//			boolean availableFr = result.getBoolean(7);
+//			boolean availableSa = result.getBoolean(8);
+//			boolean availableSu = result.getBoolean(9);
+//			
+//			CaregiverSchedule schedule = new CaregiverSchedule(scheduleId, userId, availableMo, 
+//					availableTu, availableWe, availableTh, availableFr, availableSa, availableSu);
+//			return schedule;
+//		}
+//	}
+//	
+//	public static void addCaregiverSchedule(CaregiverSchedule schedule) throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//				
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//		}
+//		
+//		// form query
+//		String query = "INSERT INTO " + TABLE_CAREGIVER_SCHEDULES + " (" +
+//				KEY_CAREGIVER_SCHEDULES_USER_ID + ", " 
+//				+ KEY_CAREGIVER_SCHEDULES_AVAILABLE_MO + ", " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_TU
+//				+ ", " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_WE + ", " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_TH + ", " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_FR
+//				+ ", " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_SA + ", " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_SU + ") VALUES ('" + schedule.getUserId() + "', '" +
+//				schedule.isAvailableMo() + "', '" + schedule.isAvailableTu() + "', '" +
+//				schedule.isAvailableWe() + "', '" + schedule.isAvailableTh() + "', '" +
+//				schedule.isAvailableFr() + "', '" + schedule.isAvailableSa() + "', '" +
+//				schedule.isAvailableSu() + "');";
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		
+//		// execute
+//		pstmt.execute();
+//		
+//		// close connection
+//		conn.close();
+//	}
+//	
+//	public static void updateCaregiverSchedule(CaregiverSchedule schedule, int userId) 
+//			throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//						
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//		}
+//		
+//		// form query
+//		String query = "UPDATE " + TABLE_CAREGIVER_SCHEDULES + " SET " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_MO + " = '" + schedule.isAvailableMo() + "', " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_TU + " = '" + schedule.isAvailableTu() + "', " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_WE + " = '" + schedule.isAvailableWe() + "', " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_TH + " = '" + schedule.isAvailableTh() + "', " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_FR + " = '" + schedule.isAvailableFr() + "', " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_SA + " = '" + schedule.isAvailableSa() + "', " +
+//				KEY_CAREGIVER_SCHEDULES_AVAILABLE_SU + " = '" + schedule.isAvailableSu() +
+//				"' WHERE " + KEY_CAREGIVER_SCHEDULES_USER_ID + " = '" + userId +"';";
+//		
+//		// execute
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		pstmt.executeUpdate();
+//		
+//		// close connection
+//		conn.close();
+//	}
+//	
+//	public static CaregiverSkills getCaregiverSkills(int userId) throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//		
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//			return null;
+//		}
+//		
+//		// form query
+//		String query = "SELECT * FROM " + TABLE_CAREGIVER_SKILLS + " WHERE " +
+//				KEY_CAREGIVER_SKILLS_USER_ID + " = '" + userId + "';";
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		
+//		// gather results
+//		ResultSet result = pstmt.executeQuery(query);
+//		if (result == null) {
+//			System.err.println("Could not find skills for specified user.");
+//			return null;
+//		} else {
+//			result.next();
+//			int skillsId = result.getInt(1);
+//			String resume = result.getString(3);
+//			boolean parkinsons = result.getBoolean(4);
+//			boolean alzheimers = result.getBoolean(5);
+//			boolean stroke = result.getBoolean(6);
+//			boolean cancer = result.getBoolean(7);
+//			boolean hospitalSitter = result.getBoolean(8);
+//			
+//			CaregiverSkills skills = new CaregiverSkills(skillsId, userId, resume, parkinsons, 
+//					alzheimers, stroke, cancer, hospitalSitter);
+//			
+//			return skills;
+//		}
+//	}
+//	
+//	public static void addCaregiverSkills(CaregiverSkills skills) throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//				
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//		}
+//		
+//		// form query
+//		String query = "INSERT INTO " + TABLE_CAREGIVER_SKILLS + " (" +
+//				KEY_CAREGIVER_SKILLS_USER_ID + ", " +
+//				KEY_CAREGIVER_SKILLS_RESUME + ", " +KEY_CAREGIVER_SKILLS_PARKINSONS + ", " +
+//				KEY_CAREGIVER_SKILLS_ALZHEIMERS + ", " + KEY_CAREGIVER_SKILLS_STROKE + ", " +
+//				KEY_CAREGIVER_SKILLS_CANCER + ", " + KEY_CAREGIVER_SKILLS_HOSPITAL_SITTER +
+//				") VALUES ('" + skills.getUserId() + "', '" +
+//				skills.getResume() + "', '" + skills.skillParkinsons() + "', '" +
+//				skills.skillAlzheimers() + "', '" + skills.skillStroke() + "', '" + skills.skillCancer()
+//				+ "', '" + skills.skillHospitalSitter() + "');";
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		
+//		// execute
+//		pstmt.execute();
+//		
+//		// close connection
+//		conn.close();
+//	}
+//	
+//	public static void updateCaregiverSkills(CaregiverSkills skills, int userId) 
+//			throws SQLException {
+//		// initialize connection
+//		Connection conn = getConnection();
+//						
+//		// validate connection
+//		if (conn == null) {
+//			System.err.println("Connection Failed");
+//		}
+//		
+//		// form query
+//		String query = "UPDATE " + TABLE_CAREGIVER_SKILLS + " SET " +
+//				KEY_CAREGIVER_SKILLS_RESUME + " = '" + skills.getResume() + "', " +
+//				KEY_CAREGIVER_SKILLS_PARKINSONS + " = '" + skills.skillParkinsons() + "', " +
+//				KEY_CAREGIVER_SKILLS_ALZHEIMERS + " = '" + skills.skillAlzheimers() + "', " +
+//				KEY_CAREGIVER_SKILLS_STROKE + " = '" + skills.skillStroke() + "', " +
+//				KEY_CAREGIVER_SKILLS_CANCER + " = '" + skills.skillCancer() + "', " +
+//				KEY_CAREGIVER_SKILLS_HOSPITAL_SITTER + " = '" + skills.skillHospitalSitter() + "', "
+//				+ " WHERE " + KEY_CAREGIVER_SKILLS_USER_ID + " = '" + userId + "';";
+//		
+//		// execute
+//		PreparedStatement pstmt = conn.prepareStatement(query);
+//		pstmt.executeUpdate();
+//		
+//		// close connection
+//		conn.close();
+//	}
+//}
+//
+//
+//
+//
+//
+////public class Dao {
+////	public static Connection getConn(){
+////		String driverStr = "com.mysql.jdbc.Driver";
+////		String urlStr = "jdbc:mysql://localhost:3306/cs160test";
+////		String uid = "root";    
+////		String pwd = "naghmehA331371"; 
+////		
+////		try {
+////				Class.forName(driverStr);
+////				return DriverManager.getConnection(urlStr, uid, pwd);
+////			} catch (SQLException | ClassNotFoundException ex) {
+////				System.err.println("The connection failed because " + ex.getMessage());
+////				ex.printStackTrace();
+////				return null;
+////			}
+////	} // method
+////	/*	
+////		public static String getPhone(String name) throws SQLException {
+////			String output = name + "'s phone is ";
+////			Connection conn = getConn();
+////			if (conn == null) return "connection failed";
+////			String sqlStr = "select * from phones where name=?;";
+////			ResultSet rs = null;
+////			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+////			pstmt.setString(1, name);
+////			rs = pstmt.executeQuery();
+////			if (rs == null)
+////			output += "Name not found!";
+////			else {
+////			rs.next();
+////			output += rs.getString(2);
+////			}
+////			return output;
+////			} // method
+////			*/
+////		
+////		//return Json
+////	public static String getPhone(String name) throws SQLException {
+////		String output = "{\"phone\" : ";
+////		Connection conn = getConn();
+////		if (conn == null) return output + "\"connection failed\"}";
+////		String sqlStr = "select * from phones where name=?;";
+////		ResultSet rs = null;
+////		PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+////		pstmt.setString(1, name);
+////		rs = pstmt.executeQuery();
+////		if (rs == null)
+////			output += "\"Name not found!\"";
+////		else {
+////			rs.next();
+////			output += "\"" + rs.getString(2) + "\"";
+////		}
+////		return output + "}";
+////	} // method
+////}
+package edu.sjsu.db;
+
+import java.security.Key;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
+public class Dao {
+	// Database connection credentials
+	private static final String DRIVER_STR = "com.mysql.jdbc.Driver";
+	private static final String URL_STR = "jdbc:mysql://localhost:3307/cs160_project";
+	private static final String DB_ID = "root";
+	private static final String DB_PWD = "fion1994";
+
+	// Database tables
+	private static final String TABLE_USERS = "users";
+	private static final String TABLE_CAREGIVER_SCHEDULES = "caregiver_schedules";
+	private static final String TABLE_CAREGIVER_SKILLS = "caregiver_skills";
+
+	// TABLE_USERS columns
+	private static final String KEY_USERS_USER_ID = "user_id";
+	private static final String KEY_USERS_EMAIL = "email";
+	private static final String KEY_USERS_PASSWORD = "password";
+	private static final String KEY_USERS_FIRST_NAME = "firstName";
+	private static final String KEY_USERS_LAST_NAME = "lastName";
+	private static final String KEY_USERS_DOB = "dob";
+	private static final String KEY_USERS_GENDER = "gender";
+	private static final String KEY_USERS_ADDRESS = "address";
+	private static final String KEY_USERS_CITY = "city";
+	private static final String KEY_USERS_STATE = "state";
+	private static final String KEY_USERS_ZIPCODE = "zipcode";
+	private static final String KEY_USERS_ACCOUNT_TYPE = "account_type";
+	private static final String KEY_USERS_VERIFIED_EMAIL = "verified_email";
+	private static final String KEY_USERS_VERIFIED_CAREGIVER = "verified_caregiver";
+
+	// TABLE_CAREGIVER_SCHEDULES columns
+	private static final String KEY_CAREGIVER_SCHEDULES_SCHEDULE_ID = "schedule_id";
+	private static final String KEY_CAREGIVER_SCHEDULES_USER_ID = "user_id";
+	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_MO = "available_monday";
+	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_TU = "available_tuesday";
+	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_WE = "available_wednesday";
+	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_TH = "available_thursday";
+	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_FR = "available_friday";
+	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_SA = "available_saturday";
+	private static final String KEY_CAREGIVER_SCHEDULES_AVAILABLE_SU = "available_sunday";
+
+	// TABLE_CAREGIVER_SKILLS columns
+	private static final String KEY_CAREGIVER_SKILLS_SKILLS_ID = "skills_id";
+	private static final String KEY_CAREGIVER_SKILLS_USER_ID = "user_id";
+	private static final String KEY_CAREGIVER_SKILLS_RESUME = "resume";
+	private static final String KEY_CAREGIVER_SKILLS_PARKINSONS = "parkinsons";
+	private static final String KEY_CAREGIVER_SKILLS_ALZHEIMERS = "alzheimers";
+	private static final String KEY_CAREGIVER_SKILLS_STROKE = "stroke";
+	private static final String KEY_CAREGIVER_SKILLS_CANCER = "cancer";
+	private static final String KEY_CAREGIVER_SKILLS_HOSPITAL_SITTER = "hospital_sitter";
+
+	// Misc
+	private static final String KEY = "SjsuFall2016CS160Optiplex";
+
+	public static Connection getConnection() {
+		try {
+			Class.forName(DRIVER_STR);
+			return DriverManager.getConnection(URL_STR, DB_ID, DB_PWD);
+		} catch (SQLException | ClassNotFoundException e) {
+			System.err.println("The connection failed because " + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// private static String encrypt(String pwd) {
+	// try {
+	// Key aesKey = new SecretKeySpec(KEY.getBytes(), "AES");
+	// Cipher cipher = Cipher.getInstance("AES");
+	// cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+	// byte[] encryptedPwd = cipher.doFinal(pwd.getBytes());
+	// return new String(encryptedPwd);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// }
+
+	public static User getUser(String email, String pwd) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+			return null;
+		}
+
+		// get encrypted password
+		String encryptedPwd = pwd;// encrypt(pwd);
+
+		// form query
+		String query = "SELECT * FROM " + TABLE_USERS + " WHERE " + KEY_USERS_EMAIL + " = '" + email + "' AND "
+				+ KEY_USERS_PASSWORD + " = '" + encryptedPwd + "';"; // error
+																		// might
+																		// happen
+		PreparedStatement pstmt = conn.prepareStatement(query);
+
+		// gather results
+		ResultSet result = pstmt.executeQuery(); // error might happen
+		if (result == null) {
+			System.err.println("Could not find user with specified email and password.");
+			return null;
+		} else {
+			result.next();
+			int userId = result.getInt(1);
+			String firstName = result.getString(4);
+			String lastName = result.getString(5);
+			String dob = result.getString(6);
+			String gender = result.getString(7);
+			String address = result.getString(8);
+			String city = result.getString(9);
+			String state = result.getString(10);
+			String zipCode = result.getString(11);
+			String accType = result.getString(12);
+			// boolean verifiedEmail = result.getBoolean(13);
+			// boolean verifiedCaregiver = result.getBoolean(14);
+
+			// , verifiedEmail, verifiedCaregiver
+			User user = new User(userId, email, pwd, firstName, lastName, dob, gender, address, city, state, zipCode,
+					accType); // error might happen
+			return user;
+		}
+	}
+
+	public static String addUser(String email, String password, String firstName, String lastName, String dob,
+			String gender, String address, String city, String state, String zipCode, String accType)
+			throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+		}
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(
+					"INSERT INTO `users` (email, password, first_name, last_name, dob, gender, address, city, state, zipcode, account_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
+			pstmt.setString(3, firstName);
+			pstmt.setString(4, lastName);
+			pstmt.setString(5, dob);
+			pstmt.setString(6, gender);
+			pstmt.setString(7, address);
+			pstmt.setString(8, city);
+			pstmt.setString(9, state);
+			pstmt.setString(10, zipCode);
+			pstmt.setString(11, accType);
+			// execute
+			pstmt.execute();
+		} catch (SQLException e) {
+			System.out.println("UNABLE TO INSERT USER");
+			e.printStackTrace();
+			return "" + e;
+		} finally {
+			// close connection
+			conn.close();
+		}
+		return "Successful";
+	}
+
+	public static void updateUser(User user, int userId) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+		}
+
+		// form query
+		String query = "UPDATE " + TABLE_USERS + " SET " + KEY_USERS_EMAIL + " = '" + user.getEmail() + "', "
+				+ KEY_USERS_PASSWORD + " = '" + user.getPassword() + "', " + KEY_USERS_FIRST_NAME + " = '"
+				+ user.getFirstName() + "', " + KEY_USERS_LAST_NAME + " = '" + user.getLastName() + "', "
+				+ KEY_USERS_DOB + " = '" + user.getDob() + "', " + KEY_USERS_GENDER + " = '" + user.getGender() + "', "
+				+ KEY_USERS_ADDRESS + " = '" + user.getAddress() + "', " + KEY_USERS_CITY + " = '" + user.getCity()
+				+ "', " + KEY_USERS_STATE + " = '" + user.getState() + "', " + KEY_USERS_ZIPCODE + " = '"
+				+ user.getZipcode() + "', " + KEY_USERS_ACCOUNT_TYPE + " = '" + user.getAccountType() + "' WHERE "
+				+ KEY_USERS_USER_ID + " = '" + userId + "';";
+
+		// + "', " + KEY_USERS_VERIFIED_EMAIL + " = '" +
+		// .user.verifiedEmail() + "', " + KEY_USERS_VERIFIED_CAREGIVER + " = '"
+		// +
+		// user.verifiedCaregiver()
+
+		// execute
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.executeUpdate();
+
+		// close connection
+		conn.close();
+	}
+
+	public static CaregiverSchedule getCaregiverSchedule(int userId) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+			return null;
+		}
+
+		// form query
+		String query = "SELECT * FROM " + TABLE_CAREGIVER_SCHEDULES + " WHERE " + KEY_CAREGIVER_SCHEDULES_USER_ID
+				+ " = '" + userId + "';";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+
+		// gather results
+		ResultSet result = pstmt.executeQuery(query);
+		if (result == null) {
+			System.err.println("Could not find schedule for specified user.");
+			return null;
+		} else {
+			result.next();
+			int scheduleId = result.getInt(1);
+			boolean availableMo = result.getBoolean(3);
+			boolean availableTu = result.getBoolean(4);
+			boolean availableWe = result.getBoolean(5);
+			boolean availableTh = result.getBoolean(6);
+			boolean availableFr = result.getBoolean(7);
+			boolean availableSa = result.getBoolean(8);
+			boolean availableSu = result.getBoolean(9);
+
+			CaregiverSchedule schedule = new CaregiverSchedule(scheduleId, userId, availableMo, availableTu,
+					availableWe, availableTh, availableFr, availableSa, availableSu);
+			return schedule;
+		}
+	}
+
+	public static void addCaregiverSchedule(CaregiverSchedule schedule) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+		}
+
+		// form query
+		String query = "INSERT INTO " + TABLE_CAREGIVER_SCHEDULES + " (" + KEY_CAREGIVER_SCHEDULES_USER_ID + ", "
+				+ KEY_CAREGIVER_SCHEDULES_AVAILABLE_MO + ", " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_TU + ", "
+				+ KEY_CAREGIVER_SCHEDULES_AVAILABLE_WE + ", " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_TH + ", "
+				+ KEY_CAREGIVER_SCHEDULES_AVAILABLE_FR + ", " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_SA + ", "
+				+ KEY_CAREGIVER_SCHEDULES_AVAILABLE_SU + ") VALUES ('" + schedule.getUserId() + "', '"
+				+ schedule.isAvailableMo() + "', '" + schedule.isAvailableTu() + "', '" + schedule.isAvailableWe()
+				+ "', '" + schedule.isAvailableTh() + "', '" + schedule.isAvailableFr() + "', '"
+				+ schedule.isAvailableSa() + "', '" + schedule.isAvailableSu() + "');";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+
+		// execute
+		pstmt.execute();
+
+		// close connection
+		conn.close();
+	}
+
+	public static void updateCaregiverSchedule(CaregiverSchedule schedule, int userId) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+		}
+
+		// form query
+		String query = "UPDATE " + TABLE_CAREGIVER_SCHEDULES + " SET " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_MO + " = '"
+				+ schedule.isAvailableMo() + "', " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_TU + " = '"
+				+ schedule.isAvailableTu() + "', " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_WE + " = '"
+				+ schedule.isAvailableWe() + "', " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_TH + " = '"
+				+ schedule.isAvailableTh() + "', " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_FR + " = '"
+				+ schedule.isAvailableFr() + "', " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_SA + " = '"
+				+ schedule.isAvailableSa() + "', " + KEY_CAREGIVER_SCHEDULES_AVAILABLE_SU + " = '"
+				+ schedule.isAvailableSu() + "' WHERE " + KEY_CAREGIVER_SCHEDULES_USER_ID + " = '" + userId + "';";
+
+		// execute
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.executeUpdate();
+
+		// close connection
+		conn.close();
+	}
+
+	public static CaregiverSkills getCaregiverSkills(int userId) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+			return null;
+		}
+
+		// form query
+		String query = "SELECT * FROM " + TABLE_CAREGIVER_SKILLS + " WHERE " + KEY_CAREGIVER_SKILLS_USER_ID + " = '"
+				+ userId + "';";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+
+		// gather results
+		ResultSet result = pstmt.executeQuery(query);
+		if (result == null) {
+			System.err.println("Could not find skills for specified user.");
+			return null;
+		} else {
+			result.next();
+			int skillsId = result.getInt(1);
+			String resume = result.getString(3);
+			boolean parkinsons = result.getBoolean(4);
+			boolean alzheimers = result.getBoolean(5);
+			boolean stroke = result.getBoolean(6);
+			boolean cancer = result.getBoolean(7);
+			boolean hospitalSitter = result.getBoolean(8);
+
+			CaregiverSkills skills = new CaregiverSkills(skillsId, userId, resume, parkinsons, alzheimers, stroke,
+					cancer, hospitalSitter);
+
+			return skills;
+		}
+	}
+
+	public static void addCaregiverSkills(CaregiverSkills skills) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+		}
+
+		// form query
+		String query = "INSERT INTO " + TABLE_CAREGIVER_SKILLS + " (" + KEY_CAREGIVER_SKILLS_USER_ID + ", "
+				+ KEY_CAREGIVER_SKILLS_RESUME + ", " + KEY_CAREGIVER_SKILLS_PARKINSONS + ", "
+				+ KEY_CAREGIVER_SKILLS_ALZHEIMERS + ", " + KEY_CAREGIVER_SKILLS_STROKE + ", "
+				+ KEY_CAREGIVER_SKILLS_CANCER + ", " + KEY_CAREGIVER_SKILLS_HOSPITAL_SITTER + ") VALUES ('"
+				+ skills.getUserId() + "', '" + skills.getResume() + "', '" + skills.skillParkinsons() + "', '"
+				+ skills.skillAlzheimers() + "', '" + skills.skillStroke() + "', '" + skills.skillCancer() + "', '"
+				+ skills.skillHospitalSitter() + "');";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+
+		// execute
+		pstmt.execute();
+
+		// close connection
+		conn.close();
+	}
+
+	public static void updateCaregiverSkills(CaregiverSkills skills, int userId) throws SQLException {
+		// initialize connection
+		Connection conn = getConnection();
+
+		// validate connection
+		if (conn == null) {
+			System.err.println("Connection Failed");
+		}
+
+		// form query
+		String query = "UPDATE " + TABLE_CAREGIVER_SKILLS + " SET " + KEY_CAREGIVER_SKILLS_RESUME + " = '"
+				+ skills.getResume() + "', " + KEY_CAREGIVER_SKILLS_PARKINSONS + " = '" + skills.skillParkinsons()
+				+ "', " + KEY_CAREGIVER_SKILLS_ALZHEIMERS + " = '" + skills.skillAlzheimers() + "', "
+				+ KEY_CAREGIVER_SKILLS_STROKE + " = '" + skills.skillStroke() + "', " + KEY_CAREGIVER_SKILLS_CANCER
+				+ " = '" + skills.skillCancer() + "', " + KEY_CAREGIVER_SKILLS_HOSPITAL_SITTER + " = '"
+				+ skills.skillHospitalSitter() + "', " + " WHERE " + KEY_CAREGIVER_SKILLS_USER_ID + " = '" + userId
+				+ "';";
+
+		// execute
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.executeUpdate();
+
+		// close connection
+		conn.close();
+	}
+}
+
+// public class Dao {
+// public static Connection getConn(){
+// String driverStr = "com.mysql.jdbc.Driver";
+// String urlStr = "jdbc:mysql://localhost:3306/cs160test";
+// String uid = "root";
+// String pwd = "naghmehA331371";
+//
+// try {
+// Class.forName(driverStr);
+// return DriverManager.getConnection(urlStr, uid, pwd);
+// } catch (SQLException | ClassNotFoundException ex) {
+// System.err.println("The connection failed because " + ex.getMessage());
+// ex.printStackTrace();
+// return null;
+// }
+// } // method
+// /*
+// public static String getPhone(String name) throws SQLException {
+// String output = name + "'s phone is ";
+// Connection conn = getConn();
+// if (conn == null) return "connection failed";
+// String sqlStr = "select * from phones where name=?;";
+// ResultSet rs = null;
+// PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+// pstmt.setString(1, name);
+// rs = pstmt.executeQuery();
+// if (rs == null)
+// output += "Name not found!";
+// else {
+// rs.next();
+// output += rs.getString(2);
+// }
+// return output;
+// } // method
+// */
+//
+// //return Json
+// public static String getPhone(String name) throws SQLException {
+// String output = "{\"phone\" : ";
+// Connection conn = getConn();
+// if (conn == null) return output + "\"connection failed\"}";
+// String sqlStr = "select * from phones where name=?;";
+// ResultSet rs = null;
+// PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+// pstmt.setString(1, name);
+// rs = pstmt.executeQuery();
+// if (rs == null)
+// output += "\"Name not found!\"";
+// else {
+// rs.next();
+// output += "\"" + rs.getString(2) + "\"";
+// }
+// return output + "}";
+// } // method
+// }

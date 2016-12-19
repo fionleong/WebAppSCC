@@ -1,0 +1,60 @@
+/* CSS for Caregiver details*/
+
+input[type="checkbox"] {
+    text-align: left;
+}
+
+.checkbox-form-group,
+.skills-form-group {
+    text-align: left;
+}
+
+
+/* CSS for User Profile */
+
+
+/* CSS for Create Account */
+
+.form-content {
+    padding: 15px;
+}
+
+.control-label {
+    font-size: 18px;
+    text-align: left;
+}
+
+.profile img {
+    width: 100%;
+    margin: auto;
+}
+
+
+/* CSS for User Profile */
+
+.section-content {
+    margin-top: 5%;
+    margin-left: auto;
+}
+
+.skills {
+    width: 100%;
+    padding-left: 10%;
+}
+
+.schedule {
+    width: 100%;
+    padding-left: 10%;
+}
+
+.about-text {
+    text-align: center;
+    width: 100%;
+}
+
+.resume {
+    margin-top: 10px;
+    width: 100%;
+    padding-left: 10%;
+    padding-bottom: 5%;
+}

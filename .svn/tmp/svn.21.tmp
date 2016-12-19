@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/profile.css">
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+
+    <!-- JS Angular -->
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-route.min.js"></script>
+    <script src="js/lib/angular-animate.min.js"></script>
+
+    <!-- Skills Controller -->
+    <script src="js/controllers/SkillsController.js"></script>
+
+</head>
+
+<body ng-app="skillsApp" ng-controller="SkillsController">
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-light bg-faded navbar-fixed-top">
+        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+        <div class="collapse navbar-toggleable-md" id="navbarResponsive">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/brand/scc.png" height="35" alt=""> Senior Companion Care</a>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="scc.html">SCC</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.html">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-warning" ng-click="logout()">Log
+					Out</a></li>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- My Skills -->
+    <section id="main-content">
+        <div class="section-content">
+            <div class="container">
+                <div class="col-sm-12">
+                    <div class="about-text">
+                        <h1 class="display-4">My Skills &amp Schedule</h1>
+                        <hr>
+                    </div>
+                    <br>
+                    <div class="form-content">
+                        <div class="form-group row">
+                            <div class="skills-selection">
+                                <div class="skills">
+                                    <h3>Type Of Care:</h3>
+                                    <br>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="parkinsons" value="parkinsons" ng-checked="parkinson=='true'"> Parkinson's Care </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="alzheimers" value="alzheimers" ng-checked="alzheimers=='true'"> Alzheimer's Care </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="stroke" value="stroke" ng-checked="stroke=='true'"> Stroke Care </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="cancer" value="cancer" ng-checked="cancer=='true'"> Cancer Care </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="hospital" value="hospital" ng-checked="hospital=='true'"> Hospital Care </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <div class="schedule-selection">
+                                <div class="schedule">
+                                    <h3>Availability Schedule:</h3>
+                                    <br>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="monday" value="monday" ng-checked="monday=='true'"> Monday </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="tuesday" value="tuesday" ng-checked="tuesday=='true'"> Tuesday </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="wednesday" value="wednesday" ng-checked="wednesday=='true'"> Wednesday </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="thursday" value="thursday" ng-checked="thursday=='true'"> Thursday </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="friday" value="friday" ng-checked="friday=='true'"> Friday </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="saturday" value="saturday" ng-checked="saturday=='true'"> Saturday </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <div class="col-sm-3">
+                                            <label><input type="checkbox" ng-model="sunday" value="sunday" ng-checked="sunday=='true'"> Sunday </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <div class="resume-section">
+                                <div class="col-sm-11">
+                                    <div class="resume">
+                                        <h3><label for="resume">Work Experience/ Resume:</label></h3>
+                                        <br>
+                                        <textarea class="form-control" rows="3" id="resume" ng-model="resume"></textarea>
+                                        <br>
+                                        <button type="submit" class="btn btn-lg btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+
+    <!-- JS Angular -->
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-route.min.js"></script>
+    <script src="js/lib/angular-animate.min.js"></script>
+    <script src="js/lib/angular-resource.js"></script>
+
+    <!-- Search Controller -->
+    <script src="js/controllers/SearchController.js"></script>
+    
+</head>
+
+<body>
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-light bg-faded navbar-fixed-top">
+        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+        <div class="collapse navbar-toggleable-md" id="navbarResponsive">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/brand/scc.png" height="35" alt=""> Senior Companion Care</a>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="scc.html">SCC</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="search.html">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-danger" href="login.html">Log In</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- left filter pannel -->
+    <div id="search-page">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-3">
+                <div id="filter-panel">
+                    <div class="container">
+                        <div class="row">
+                            <div class="well">
+                                <h3 align="center" class="display-4">Search Filter</h3>
+                                <hr>
+                                <form class="form-horizontal" ng-app="searchApp" ng-controller="SearchController">
+                                    <div class="form-group">
+                                        <label for="location" class="control-label"><p class="lead">Location</p></label>
+                                        <input type="text" class="form-control" id="locationText">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="schedule" class="control-label"><p class="lead">Availability</p></label>
+                                        <div class="col-lg-12 col-md-12 col-sm-8">
+                                            <label><input type="checkbox" value="monday"> Monday </label><br>
+                                            <label><input type="checkbox" value="tuesday"> Tuesday </label><br>
+                                            <label><input type="checkbox" value="wednesday"> Wednesday </label><br>
+                                            <label><input type="checkbox" value="thursday"> Thursday </label><br>
+                                            <label><input type="checkbox" value="friday"> Friday </label><br>
+                                            <label><input type="checkbox" value="saturday"> Saturday </label><br>
+                                            <label><input type="checkbox" value="sunday"> Sunday </label>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Care" class="control-label"><p class="lead">Type of Care</p></label>
+                                        <div class="col-lg-12 col-md-12 col-sm-8">
+                                            <label><input type="checkbox" value="monday"> Parkinson's Care </label><br>
+                                            <label><input type="checkbox" value="tuesday"> Alzheimer's Care </label><br>
+                                            <label><input type="checkbox" value="wednesday"> Stroke Care </label><br>
+                                            <label><input type="checkbox" value="thursday"> Cancer Care </label><br>
+                                            <label><input type="checkbox" value="friday"> Hospital Sitter </label><br>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <p class="text-center">
+                                        <input type="submit" onclick="return getCellValue()" class="btn btn-success" role="button" value="Search">
+                                        <br>
+                                        <a href="option_search.html" class="btn btn-success" role="button">Optional Search</a>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Search Results Panel -->
+            <div class="col-lg-9 col-md-7 col-sm-6">
+                <div class="container">
+                    <div id="search-results">
+                        <h3 class="display-4">We found these caregivers for you</h3>
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="searchTable">
+                                <thead>
+                                    <td><b>Name</b></td>
+                                    <td><b>City</b></td>
+                                    <td><b>State</b></td>
+                                    <td><b>Email</b></td>
+                                    <td><b>Caregiver Details</b></td>
+                                </thead>
+                                <tbody>
+                                   <tr ng-repeat="user in users"></tr>
+                                       <td> {{ user.name }}</td>
+                                       <td> {{ user.city }}</td>
+                                       <td> {{ user.state }}</td>
+                                       <td> {{ user.email }}</td>
+                                       <td><input type="submit" onclick="" class="btn btn-info" role="button" value="More Info"></td>
+                                    <!-- Populate data from JSON file -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function moreInfoBtn(value) {
+            window.location = "search_caregiver_details.html";
+
+        }
+
+        $.getJSON("js/data.json", function(data) {
+            var items = [];
+            $.each(data, function(key, value) {
+                items.push("<tr>");
+                items.push("<td id='' " + key + " ''>" + value.first_name + "  " + value.last_name + "</td>");
+                items.push("<td id='' " + key + " ''>" + value.city + "</td>");
+                items.push("<td id='' " + key + " ''>" + value.state + "</td>");
+                items.push("<td id='' " + key + " ''>" + value.email + "</td>");
+                localStorage.setItem("user_id", value.user_id);
+                items.push("<td><input type=\"submit\" onclick=\"return moreInfoBtn()\" class=\"btn btn-info\" role=\"button\" value=\"More Info\"></td>");
+                items.push("<tr>");
+            });
+            $("<tbody/>", {
+                html: items.join("")
+            }).appendTo("table");
+        });
+
+    </script>
+</body>
+
+</html>

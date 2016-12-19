@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+   <!-- Nav Bar -->
+    <nav class="navbar navbar-light bg-faded navbar-fixed-top">
+        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+        <div class="collapse navbar-toggleable-md" id="navbarResponsive">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/brand/scc.png" height="35" alt=""> Senior Companion Care</a>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="scc.html">SCC</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.html">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-danger" href="login.html">Log In</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+   <!-- Form Content -->
+    <div class="container" ng-app="validationApp" ng-controller="contactController">
+        <form class="col-sm-12" action=" " method="post" id="contact-form" name="form" ng-submit="submitForm(form.$valid)" novalidate>
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend class="display-4">Contact Us Today!</legend>
+
+                <!-- Text input-->
+
+                <div class="form-group row" ng-class="{ 'has-error' : form.name.$invalid && !form.name.$pristine }">
+                    <label class="col-md-12 control-label">Name</label>
+                    <div class="col-md-12 inputGroupContainer">
+                        <div class="input-group">
+                            <input name="name" placeholder="Name" class="form-control" type="text" ng-model="name" required>
+                            <p ng-show="form.name.$invalid && !form.name.$pristine" class="help-block">Your name is required</p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group row" ng-class= "{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
+                    <label class="col-md-12 control-label">E-mail</label>
+                    <div class="col-md-12 inputGroupContainer">
+                        <div class="input-group">
+                            <input name="email" placeholder="E-mail" class="form-control" type="email" ng-model="email" required>
+                            <p ng-show="form.email.$invalid && !form.email.$pristine" class="help-block">Enter a valid email</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text area -->
+                <div class="form-group row" ng-class="{ 'has-error' : form.comment.$invalid && !form.comment.$pristine }">
+                    <label class="col-md-12 control-label">Message</label>
+                    <div class="col-md-12 inputGroupContainer">
+                        <div class="input-group">
+                            <textarea class="form-control" name="comment" placeholder="Write your message here" ng-model="comment" required></textarea>
+                            <p ng-show="form.comment.$invalid && !form.comment.$pristine" class="help-block">Enter a message</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success message -->
+                <div class="alert alert-success" role="alert" id="success-message">Thank you for contacting us, we will get back to you as soon as possible.</div>
+
+                <!-- Send Button -->
+                <div class="form-group row">
+                    <label class="col-md-12 control-label"></label>
+                    <div class="col-md-12">
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-warning">Send</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/app2.js"></script>
+</body>
+</html>

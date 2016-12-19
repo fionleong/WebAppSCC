@@ -1,0 +1,11 @@
+SVN Repo
+----------
+https://sourceforge.net/projects/cs160test/
+
+Project URL
+-------------
+http://localhost:8080/optiplex
+
+Additional Instructions
+-------------------------
+In Dao.java, ensure that the values for DB_ID, DB_PWD, and the port for URL_STR are appropriate for your machine.

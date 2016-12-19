@@ -1,0 +1,8 @@
+edu/sjsu/rest/HelloWorldService.class
+edu/sjsu/db/CaregiverSkills.class
+edu/sjsu/db/Dao.class
+edu/sjsu/rest/LoginService.class
+edu/sjsu/rest/RegisterService.class
+edu/sjsu/rest/LoginService$Wrapper.class
+edu/sjsu/db/User.class
+edu/sjsu/db/CaregiverSchedule.class

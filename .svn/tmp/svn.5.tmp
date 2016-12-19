@@ -1,0 +1,51 @@
+var userProfileApp = angular.module('userProfileApp', ['ngRoute', 'ngStorage']);
+
+userProfileApp.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider.
+    when('/login', {
+        templateUrl: 'login.html',
+        controller: 'LoginController'
+    }).
+    when('/register', {
+        templateUrl: 'signup.html',
+        controller: 'RegisterController'
+    }).
+    when('/success', {
+        templateUrl: 'signup_successful.html',
+        controller: 'SuccessController'
+    }).
+     when('/contact', {
+        templateUrl: 'contact.html',
+        controller: 'ContactController'
+    }).
+    otherwise({
+        redirectTo: '/login'
+    });
+}]);
+
+// Creates UserProfileController and calls 
+userProfileApp.controller('UserProfileController', ['$scope', '$http', 'localStorage', '$window', function ($scope, $http, $localStorage, $window) {
+
+//    $scope.saveData = function() {
+//        var myObj = {
+//            firstName: "Fion",
+//            lastName: "Leong"
+//        }
+//        $localStorage.myObj = myObj;
+//    }
+//    
+//    $scope.loadData = function() {
+//        $scope.myObj = $localStorage.myObj;
+//    }
+    
+    
+    
+}]);
+
+
+
+
+
+
+
+

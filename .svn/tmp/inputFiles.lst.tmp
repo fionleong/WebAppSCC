@@ -1,0 +1,18 @@
+<<<<<<< .mine
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\rest\HelloWorldService.java
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\db\Dao.java
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\db\User.java
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\db\CaregiverSchedule.java
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\db\CaregiverSkills.java
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\rest\LoginService.java
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\rest\RegisterService.java
+C:\Users\Fion\Desktop\CS160 - Software Eng\Optiplex\branches\working_server_site\optiplex_update\src\main\java\edu\sjsu\rest\SearchService.java
+=======
+/Users/naghmeh/Documents/CS160/working_server_site/optiplex_update/src/main/java/edu/sjsu/db/CaregiverSchedule.java
+/Users/naghmeh/Documents/CS160/working_server_site/optiplex_update/src/main/java/edu/sjsu/db/CaregiverSkills.java
+/Users/naghmeh/Documents/CS160/working_server_site/optiplex_update/src/main/java/edu/sjsu/rest/RegisterService.java
+/Users/naghmeh/Documents/CS160/working_server_site/optiplex_update/src/main/java/edu/sjsu/db/User.java
+/Users/naghmeh/Documents/CS160/working_server_site/optiplex_update/src/main/java/edu/sjsu/db/Dao.java
+/Users/naghmeh/Documents/CS160/working_server_site/optiplex_update/src/main/java/edu/sjsu/rest/HelloWorldService.java
+/Users/naghmeh/Documents/CS160/working_server_site/optiplex_update/src/main/java/edu/sjsu/rest/LoginService.java
+>>>>>>> .r123
